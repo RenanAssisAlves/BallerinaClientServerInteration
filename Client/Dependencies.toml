@@ -145,6 +145,9 @@ version = "0.0.0"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
+modules = [
+	{org = "ballerina", packageName = "lang.int", moduleName = "lang.int"}
+]
 
 [[package]]
 org = "ballerina"
@@ -271,15 +274,16 @@ modules = [
 
 [[package]]
 org = "renan"
-name = "Client"
+name = "client"
 version = "0.1.0"
 dependencies = [
 	{org = "ballerina", name = "http"},
 	{org = "ballerina", name = "io"},
+	{org = "ballerina", name = "lang.int"},
 	{org = "ballerinai", name = "observe"}
 ]
 modules = [
-	{org = "renan", packageName = "Client", moduleName = "Client"}
+	{org = "renan", packageName = "client", moduleName = "client"}
 ]
 
 

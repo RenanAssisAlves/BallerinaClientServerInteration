@@ -19,11 +19,35 @@ public final table<Car> key(id) carTable = table
 ];
  
 service / on httpListener{
-    resource function get cars() returns Car[] {
+    resource function get car/list() returns Car[] {
         return carTable.toArray();
     }
 
-    resource function post caradd(@http:Payload Car[] carEntries) returns ConflictingIdCodesError|CreatedCarEntries
+    resource function get car/list/sold() returns Car[] {
+        Car[] carList = carTable.toArray();
+        Car[] carSold = [];
+        foreach Car car in carList {
+            if car.sold
+            {
+                carSold.push(car);
+            }
+        }
+        return carSold;
+    }
+
+    resource function get car/list/unsold() returns Car[] {
+        Car[] carList = carTable.toArray();
+        Car[] carSold = [];
+        foreach Car car in carList {
+            if !car.sold
+            {
+                carSold.push(car);
+            }
+        }
+        return carSold;
+    }
+
+    resource function post car/add(@http:Payload Car[] carEntries) returns ConflictingIdCodesError|CreatedCarEntries
     {
         string[] conflictingIds = from Car carEntry in carEntries
         where carTable.hasKey(carEntry.id)
@@ -32,13 +56,22 @@ service / on httpListener{
         if conflictingIds.length() > 0 {
             return <ConflictingIdCodesError>{
                 body: {
-                    errmsg: string:'join(" ", "Conflicting ID :", ...conflictingIds)
+                    errmsg: string:'join(" ", "Conflicting Car ID :", ...conflictingIds)
                 }
             };
         }
         else {
             carEntries.forEach(carEntry => carTable.add(carEntry));
             return <CreatedCarEntries> {body: carEntries};
+        }
+    }
+
+    resource function get car/[string id]() returns Car|http:NotFound {
+        Car? car = carTable[id];
+        if car is () {
+            return <http:NotFound>{};
+        } else {
+            return car;
         }
     }
 }
