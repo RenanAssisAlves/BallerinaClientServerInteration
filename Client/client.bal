@@ -67,9 +67,9 @@ public function main() returns error? {
 
     final http:Client clientEndpoint = check new ("localhost:8080");
     
-    json resp = check clientEndpoint->get("/car/list");
+    json responseList = check clientEndpoint->get("/car/list");
 
-    io:println("Get car list before insertion:\n", resp, "\n\n");
+    io:println("Get car list before insertion:\n", responseList, "\n\n");
     
     json insertNewCar = [
                           {
@@ -88,16 +88,16 @@ public function main() returns error? {
                           }
                         ];
                         
-    json response = check clientEndpoint->post("/car/add", insertNewCar);
-    io:println("Insert new car: ", response, "\n\n");
+    json responseAdd = check clientEndpoint->post("/car/add", insertNewCar);
+    io:println("Insert new car: ", responseAdd, "\n\n");
 
 
-    resp = check clientEndpoint->get("/car/list");
+    responseList = check clientEndpoint->get("/car/list");
 
-    io:println("Get car list after insertion:\n\n", resp, "\n\n");
+    io:println("Get car list after insertion:\n\n", responseList, "\n\n");
 
     io:println("Show if cars are available for purchase or its already sold:\n");
-    json[] jsonArray = <json[]>resp;
+    json[] jsonArray = <json[]>responseList;
     foreach json car in jsonArray {
         map<json> mapcar = <map<json>>car;
         string id = mapcar["id"].toString();

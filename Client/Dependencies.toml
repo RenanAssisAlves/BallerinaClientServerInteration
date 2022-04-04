@@ -274,7 +274,7 @@ modules = [
 
 [[package]]
 org = "renan"
-name = "client"
+name = "Client"
 version = "0.1.0"
 dependencies = [
 	{org = "ballerina", name = "http"},
@@ -283,7 +283,7 @@ dependencies = [
 	{org = "ballerinai", name = "observe"}
 ]
 modules = [
-	{org = "renan", packageName = "client", moduleName = "client"}
+	{org = "renan", packageName = "Client", moduleName = "Client"}
 ]
 
 
